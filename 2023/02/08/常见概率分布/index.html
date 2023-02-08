@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="参考 https:&#x2F;&#x2F;github.com&#x2F;graykode&#x2F;distribution-is-all-you-need 练习了常见概率分布的代码 vscode+python+.ipynb 123import numpy as npimport matplotlib.pyplot as pltimport random    均匀分布  Uniform distribution12345678910">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【学习】常见概率分布Python代码实现">
+<meta property="og:url" content="http://example.com/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/index.html">
+<meta property="og:site_name" content="Xiaoqu">
+<meta property="og:description" content="参考 https:&#x2F;&#x2F;github.com&#x2F;graykode&#x2F;distribution-is-all-you-need 练习了常见概率分布的代码 vscode+python+.ipynb 123import numpy as npimport matplotlib.pyplot as pltimport random    均匀分布  Uniform distribution12345678910">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/image-20230208192804616.png">
+<meta property="og:image" content="http://example.com/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/image-20230208192850593.png">
+<meta property="og:image" content="http://example.com/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/image-20230208192947171.png">
+<meta property="og:image" content="http://example.com/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/image-20230208193028231.png">
+<meta property="og:image" content="http://example.com/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/image-20230208193053849.png">
+<meta property="og:image" content="http://example.com/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/image-20230208193136953.png">
+<meta property="og:image" content="http://example.com/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/image-20230208193159857.png">
+<meta property="og:image" content="http://example.com/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/image-20230208193230281.png">
+<meta property="og:image" content="http://example.com/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/image-20230208193310624.png">
+<meta property="og:image" content="http://example.com/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/image-20230208193345113.png">
+<meta property="article:published_time" content="2023-02-08T11:25:00.000Z">
+<meta property="article:modified_time" content="2023-02-08T11:34:05.595Z">
+<meta property="article:tag" content="Python 概率分布">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/image-20230208192804616.png">
+
+<link rel="canonical" href="http://example.com/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【学习】常见概率分布Python代码实现 | Xiaoqu</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Xiaoqu</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Xiaoqu</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="Xiaoqu的个人博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xiaoqu">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【学习】常见概率分布Python代码实现
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-02-08 19:25:00 / 修改时间：19:34:05" itemprop="dateCreated datePublished" datetime="2023-02-08T19:25:00+08:00">2023-02-08</time>
+            </span>
+
+          
+            <span id="/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/" class="post-meta-item leancloud_visitors" data-flag-title="【学习】常见概率分布Python代码实现" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>参考 <a target="_blank" rel="noopener" href="https://github.com/graykode/distribution-is-all-you-need">https://github.com/graykode/distribution-is-all-you-need</a> 练习了常见概率分布的代码</p>
+<p>vscode+python+.ipynb</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> random</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="均匀分布-Uniform-distribution"><a href="#均匀分布-Uniform-distribution" class="headerlink" title="均匀分布  Uniform distribution"></a>均匀分布  Uniform distribution</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">uniform</span>(<span class="params">x,a,b</span>):</span><br><span class="line">    <span class="comment"># y=[]</span></span><br><span class="line">    <span class="comment"># for val in x:</span></span><br><span class="line">    <span class="comment">#     if val&gt;=a and val&lt;=b:</span></span><br><span class="line">    <span class="comment">#         y.append(1/(b-a))</span></span><br><span class="line">    <span class="comment">#     else:</span></span><br><span class="line">    <span class="comment">#         y.append(0)</span></span><br><span class="line">    y=[<span class="number">1</span>/(b-a) <span class="keyword">if</span> a&lt;=val <span class="keyword">and</span> val&lt;=b <span class="keyword">else</span> <span class="number">0</span> <span class="keyword">for</span> val <span class="keyword">in</span> x]</span><br><span class="line">    <span class="keyword">return</span> x,y,np.mean(y),np.std(y)</span><br><span class="line">x= np.arange(-<span class="number">100</span>,<span class="number">100</span>)</span><br><span class="line">a=-<span class="number">50</span></span><br><span class="line">b=<span class="number">50</span></span><br><span class="line">x,y,u,s=uniform(x,a,b)</span><br><span class="line">plt.plot(x,y)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<img src="/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/image-20230208192804616.png" class="" title="image-20230208192804616">
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> ls <span class="keyword">in</span> [(-<span class="number">50</span>,<span class="number">50</span>),(-<span class="number">30</span>,<span class="number">20</span>)]:</span><br><span class="line">    a,b=ls[<span class="number">0</span>],ls[<span class="number">1</span>]</span><br><span class="line">    x,y,u,s=uniform(x,a,b)</span><br><span class="line">    plt.plot(x, y)</span><br><span class="line">plt.legend()</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<img src="/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/image-20230208192850593.png" class="" title="image-20230208192850593">
+
+<h1 id="伯努利分布-Bernoulli-distribution"><a href="#伯努利分布-Bernoulli-distribution" class="headerlink" title="伯努利分布 Bernoulli distribution"></a>伯努利分布 Bernoulli distribution</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">Bernoulli</span>(<span class="params">p,k</span>):</span><br><span class="line">    <span class="comment"># if k == 1:</span></span><br><span class="line">    <span class="comment">#     y = p</span></span><br><span class="line">    <span class="comment"># else:</span></span><br><span class="line">    <span class="comment">#     y = 1-p</span></span><br><span class="line">    <span class="comment"># return y</span></span><br><span class="line">    <span class="keyword">return</span> p <span class="keyword">if</span> k <span class="keyword">else</span> <span class="number">1</span>-p</span><br><span class="line">n_exp=<span class="number">100</span></span><br><span class="line">x=np.arange(n_exp)</span><br><span class="line">p=<span class="number">0.6</span></span><br><span class="line">y=[]</span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(n_exp):</span><br><span class="line">    pick=Bernoulli(p,k=<span class="built_in">bool</span>(random.getrandbits(<span class="number">1</span>)))</span><br><span class="line">    y.append(pick)</span><br><span class="line"><span class="comment"># u,s=np.mean(y),np.std(y)</span></span><br><span class="line">plt.scatter(x,y)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<img src="/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/image-20230208192947171.png" class="" title="image-20230208192947171">
+
+<h1 id="二项分布Binomial-distribution"><a href="#二项分布Binomial-distribution" class="headerlink" title="二项分布Binomial distribution"></a>二项分布Binomial distribution</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">const</span>(<span class="params">k,n</span>):</span><br><span class="line">    <span class="keyword">return</span> np.math.factorial(n)/(np.math.factorial(k)*np.math.factorial(n-k))</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Binomial</span>(<span class="params">n,p</span>):</span><br><span class="line">    y=[const(k,n)*(p**k)*((<span class="number">1</span>-p)**(n-k)) <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(n)]</span><br><span class="line">    <span class="keyword">return</span> y</span><br><span class="line">n_exp=<span class="number">40</span></span><br><span class="line">p=<span class="number">0.7</span></span><br><span class="line">x=np.arange(n_exp)</span><br><span class="line">y=Binomial(n_exp,p)</span><br><span class="line"><span class="comment"># y.append(pick)</span></span><br><span class="line">plt.scatter(x,y)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<img src="/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/image-20230208193028231.png" class="" title="image-20230208193028231">
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> ls <span class="keyword">in</span> [(<span class="number">0.5</span>, <span class="number">20</span>), (<span class="number">0.7</span>, <span class="number">40</span>), (<span class="number">0.5</span>, <span class="number">40</span>)]:</span><br><span class="line">    p=ls[<span class="number">0</span>]</span><br><span class="line">    n_exp=ls[<span class="number">1</span>]</span><br><span class="line">    x=np.arange(n_exp)</span><br><span class="line">    y=Binomial(n_exp,p)</span><br><span class="line">    plt.scatter(x, y)</span><br><span class="line">plt.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<img src="/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/image-20230208193053849.png" class="" title="image-20230208193053849">
+
+<h1 id="Beta分布"><a href="#Beta分布" class="headerlink" title="Beta分布"></a>Beta分布</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">gamma</span>(<span class="params">n</span>):</span><br><span class="line">    res=<span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>,n):</span><br><span class="line">        res*=i</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">beta</span>(<span class="params">x,a,b</span>):</span><br><span class="line">    res=gamma(a+b)/(gamma(a)*gamma(b))</span><br><span class="line">    y=res*x**(a-<span class="number">1</span>)*(<span class="number">1</span>-x)**(b-<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> y</span><br><span class="line">a,b=<span class="number">1</span>,<span class="number">3</span></span><br><span class="line">x=np.arange(<span class="number">0</span>,<span class="number">1</span>,<span class="number">0.001</span>)</span><br><span class="line">y=beta(x,a,b)</span><br><span class="line">plt.plot(x,y)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<img src="/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/image-20230208193136953.png" class="" title="image-20230208193136953">
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> ls <span class="keyword">in</span> [(<span class="number">1</span>, <span class="number">3</span>), (<span class="number">5</span>, <span class="number">1</span>), (<span class="number">2</span>, <span class="number">2</span>), (<span class="number">2</span>, <span class="number">5</span>),(<span class="number">5</span>,<span class="number">2</span>),(<span class="number">10</span>,<span class="number">1</span>)]:</span><br><span class="line">    a,b=ls[<span class="number">0</span>],ls[<span class="number">1</span>]</span><br><span class="line">    x=np.arange(<span class="number">0</span>,<span class="number">1</span>,<span class="number">0.001</span>)</span><br><span class="line">    y=beta(x,a,b)</span><br><span class="line">    plt.plot(x,y)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<img src="/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/image-20230208193159857.png" class="" title="image-20230208193159857">
+
+<h1 id="伽马分布-Gamma-distribution"><a href="#伽马分布-Gamma-distribution" class="headerlink" title="伽马分布 Gamma distribution"></a>伽马分布 Gamma distribution</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">gamma</span>(<span class="params">n</span>):</span><br><span class="line">    res = <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, n):</span><br><span class="line">        res *= i</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">gamma_dis</span>(<span class="params">x,a,b</span>):</span><br><span class="line">    res=<span class="number">1</span>/gamma(a)</span><br><span class="line">    y=res*b**a*x**(a-<span class="number">1</span>)*np.exp((-b*x))</span><br><span class="line">    <span class="keyword">return</span> y</span><br><span class="line"><span class="keyword">for</span> ls <span class="keyword">in</span> [(<span class="number">1</span>,<span class="number">1</span>),(<span class="number">2</span>,<span class="number">1</span>),(<span class="number">3</span>,<span class="number">1</span>),(<span class="number">2</span>,<span class="number">2</span>),(<span class="number">4</span>,<span class="number">1</span>)]:</span><br><span class="line">    a,b=ls[<span class="number">0</span>],ls[<span class="number">1</span>]</span><br><span class="line">    x=np.arange(<span class="number">0</span>,<span class="number">20</span>,<span class="number">0.001</span>)</span><br><span class="line">    y=gamma_dis(x,a,b)</span><br><span class="line">    plt.plot(x,y)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<img src="/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/image-20230208193230281.png" class="" title="image-20230208193230281">
+
+<h1 id="指数分布Exponential-distribution"><a href="#指数分布Exponential-distribution" class="headerlink" title="指数分布Exponential distribution"></a>指数分布Exponential distribution</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">exponential</span>(<span class="params">x,lam</span>):</span><br><span class="line">    y=[]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> x:</span><br><span class="line">        <span class="keyword">if</span> i&gt;=<span class="number">0</span>:</span><br><span class="line">            y.append(lam*np.exp(-lam*i))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            y.append(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> y</span><br><span class="line"><span class="keyword">for</span> lam <span class="keyword">in</span> [<span class="number">0.5</span>,<span class="number">1</span>,<span class="number">1.5</span>]:</span><br><span class="line">    x=np.arange(<span class="number">0</span>,<span class="number">20</span>,<span class="number">0.01</span>,dtype=np.float64)</span><br><span class="line">    y=exponential(x,lam)</span><br><span class="line">    plt.plot(x,y)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<img src="/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/image-20230208193310624.png" class="" title="image-20230208193310624">
+
+<h1 id="高斯分布-Gaussian-distribution"><a href="#高斯分布-Gaussian-distribution" class="headerlink" title="高斯分布 Gaussian distribution"></a>高斯分布 Gaussian distribution</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">gaussian</span>(<span class="params">x</span>):</span><br><span class="line">    u=x.mean()</span><br><span class="line">    sig=x.std()</span><br><span class="line">    res1=<span class="number">1</span>/(sig*np.math.sqrt(<span class="number">2</span>*np.pi))</span><br><span class="line">    res2=-((x-u)**<span class="number">2</span>/(<span class="number">2</span>*sig**<span class="number">2</span>))</span><br><span class="line">    <span class="keyword">return</span> res1*np.exp(res2)</span><br><span class="line">x=np.arange(-<span class="number">100</span>,<span class="number">100</span>,<span class="number">0.001</span>)</span><br><span class="line">y=gaussian(x)</span><br><span class="line">plt.plot(x,y)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<img src="/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/image-20230208193345113.png" class="" title="image-20230208193345113">
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python-%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/" rel="tag"># Python 概率分布</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/02/08/hexo-typora%E7%9A%84%E5%9B%BE%E7%89%87%E8%B7%AF%E5%BE%84%E4%B8%8E%E6%94%AF%E6%8C%81Latex%E8%AF%AD%E5%8F%A5%E9%97%AE%E9%A2%98/" rel="prev" title="hexo+typora的图片路径与支持Latex语句问题">
+      <i class="fa fa-chevron-left"></i> hexo+typora的图片路径与支持Latex语句问题
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9D%87%E5%8C%80%E5%88%86%E5%B8%83-Uniform-distribution"><span class="nav-number">1.</span> <span class="nav-text">均匀分布  Uniform distribution</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BC%AF%E5%8A%AA%E5%88%A9%E5%88%86%E5%B8%83-Bernoulli-distribution"><span class="nav-number">2.</span> <span class="nav-text">伯努利分布 Bernoulli distribution</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E9%A1%B9%E5%88%86%E5%B8%83Binomial-distribution"><span class="nav-number">3.</span> <span class="nav-text">二项分布Binomial distribution</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Beta%E5%88%86%E5%B8%83"><span class="nav-number">4.</span> <span class="nav-text">Beta分布</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BC%BD%E9%A9%AC%E5%88%86%E5%B8%83-Gamma-distribution"><span class="nav-number">5.</span> <span class="nav-text">伽马分布 Gamma distribution</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8C%87%E6%95%B0%E5%88%86%E5%B8%83Exponential-distribution"><span class="nav-number">6.</span> <span class="nav-text">指数分布Exponential distribution</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83-Gaussian-distribution"><span class="nav-number">7.</span> <span class="nav-text">高斯分布 Gaussian distribution</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name"></p>
+  <div class="site-description" itemprop="description">Xiaoqu的个人博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"ejeJCGRcmAAJTOfRlLaYbG5M-gzGzoHsz","app_key":"gP6jEK3eqltMAndqiDlNCY34","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

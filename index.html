@@ -264,6 +264,115 @@ mjx-container[display="true"] + br {
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="Xiaoqu的个人博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xiaoqu">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/" class="post-title-link" itemprop="url">【学习】常见概率分布Python代码实现</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-02-08 19:25:00 / 修改时间：19:34:05" itemprop="dateCreated datePublished" datetime="2023-02-08T19:25:00+08:00">2023-02-08</time>
+            </span>
+
+          
+            <span id="/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/" class="post-meta-item leancloud_visitors" data-flag-title="【学习】常见概率分布Python代码实现" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>参考 <a target="_blank" rel="noopener" href="https://github.com/graykode/distribution-is-all-you-need">https://github.com/graykode/distribution-is-all-you-need</a> 练习了常见概率分布的代码</p>
+<p>vscode+python+.ipynb</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> random</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="均匀分布-Uniform-distribution"><a href="#均匀分布-Uniform-distribution" class="headerlink" title="均匀分布  Uniform distribution"></a>均匀分布  Uniform distribution</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">uniform</span>(<span class="params">x,a,b</span>):</span><br><span class="line">    <span class="comment"># y=[]</span></span><br><span class="line">    <span class="comment"># for val in x:</span></span><br><span class="line">    <span class="comment">#     if val&gt;=a and val&lt;=b:</span></span><br><span class="line">    <span class="comment">#         y.append(1/(b-a))</span></span><br><span class="line">    <span class="comment">#     else:</span></span><br><span class="line">    <span class="comment">#         y.append(0)</span></span><br><span class="line">    y=[<span class="number">1</span>/(b-a) <span class="keyword">if</span> a&lt;=val <span class="keyword">and</span> val&lt;=b <span class="keyword">else</span> <span class="number">0</span> <span class="keyword">for</span> val <span class="keyword">in</span> x]</span><br><span class="line">    <span class="keyword">return</span> x,y,np.mean(y),np.std(y)</span><br><span class="line">x= np.arange(-<span class="number">100</span>,<span class="number">100</span>)</span><br><span class="line">a=-<span class="number">50</span></span><br><span class="line">b=<span class="number">50</span></span><br><span class="line">x,y,u,s=uniform(x,a,b)</span><br><span class="line">plt.plot(x,y)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<img src="/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/image-20230208192804616.png" class="" title="image-20230208192804616">
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> ls <span class="keyword">in</span> [(-<span class="number">50</span>,<span class="number">50</span>),(-<span class="number">30</span>,<span class="number">20</span>)]:</span><br><span class="line">    a,b=ls[<span class="number">0</span>],ls[<span class="number">1</span>]</span><br><span class="line">    x,y,u,s=uniform(x,a,b)</span><br><span class="line">    plt.plot(x, y)</span><br><span class="line">plt.legend()</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<img src="/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/image-20230208192850593.png" class="" title="image-20230208192850593">
+
+<h1 id="伯努利分布-Bernoulli-distribution"><a href="#伯努利分布-Bernoulli-distribution" class="headerlink" title="伯努利分布 Bernoulli distribution"></a>伯努利分布 Bernoulli distribution</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">Bernoulli</span>(<span class="params">p,k</span>):</span><br><span class="line">    <span class="comment"># if k == 1:</span></span><br><span class="line">    <span class="comment">#     y = p</span></span><br><span class="line">    <span class="comment"># else:</span></span><br><span class="line">    <span class="comment">#     y = 1-p</span></span><br><span class="line">    <span class="comment"># return y</span></span><br><span class="line">    <span class="keyword">return</span> p <span class="keyword">if</span> k <span class="keyword">else</span> <span class="number">1</span>-p</span><br><span class="line">n_exp=<span class="number">100</span></span><br><span class="line">x=np.arange(n_exp)</span><br><span class="line">p=<span class="number">0.6</span></span><br><span class="line">y=[]</span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(n_exp):</span><br><span class="line">    pick=Bernoulli(p,k=<span class="built_in">bool</span>(random.getrandbits(<span class="number">1</span>)))</span><br><span class="line">    y.append(pick)</span><br><span class="line"><span class="comment"># u,s=np.mean(y),np.std(y)</span></span><br><span class="line">plt.scatter(x,y)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<img src="/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/image-20230208192947171.png" class="" title="image-20230208192947171">
+
+<h1 id="二项分布Binomial-distribution"><a href="#二项分布Binomial-distribution" class="headerlink" title="二项分布Binomial distribution"></a>二项分布Binomial distribution</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">const</span>(<span class="params">k,n</span>):</span><br><span class="line">    <span class="keyword">return</span> np.math.factorial(n)/(np.math.factorial(k)*np.math.factorial(n-k))</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Binomial</span>(<span class="params">n,p</span>):</span><br><span class="line">    y=[const(k,n)*(p**k)*((<span class="number">1</span>-p)**(n-k)) <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(n)]</span><br><span class="line">    <span class="keyword">return</span> y</span><br><span class="line">n_exp=<span class="number">40</span></span><br><span class="line">p=<span class="number">0.7</span></span><br><span class="line">x=np.arange(n_exp)</span><br><span class="line">y=Binomial(n_exp,p)</span><br><span class="line"><span class="comment"># y.append(pick)</span></span><br><span class="line">plt.scatter(x,y)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<img src="/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/image-20230208193028231.png" class="" title="image-20230208193028231">
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> ls <span class="keyword">in</span> [(<span class="number">0.5</span>, <span class="number">20</span>), (<span class="number">0.7</span>, <span class="number">40</span>), (<span class="number">0.5</span>, <span class="number">40</span>)]:</span><br><span class="line">    p=ls[<span class="number">0</span>]</span><br><span class="line">    n_exp=ls[<span class="number">1</span>]</span><br><span class="line">    x=np.arange(n_exp)</span><br><span class="line">    y=Binomial(n_exp,p)</span><br><span class="line">    plt.scatter(x, y)</span><br><span class="line">plt.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<img src="/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/image-20230208193053849.png" class="" title="image-20230208193053849">
+
+<h1 id="Beta分布"><a href="#Beta分布" class="headerlink" title="Beta分布"></a>Beta分布</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">gamma</span>(<span class="params">n</span>):</span><br><span class="line">    res=<span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>,n):</span><br><span class="line">        res*=i</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">beta</span>(<span class="params">x,a,b</span>):</span><br><span class="line">    res=gamma(a+b)/(gamma(a)*gamma(b))</span><br><span class="line">    y=res*x**(a-<span class="number">1</span>)*(<span class="number">1</span>-x)**(b-<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> y</span><br><span class="line">a,b=<span class="number">1</span>,<span class="number">3</span></span><br><span class="line">x=np.arange(<span class="number">0</span>,<span class="number">1</span>,<span class="number">0.001</span>)</span><br><span class="line">y=beta(x,a,b)</span><br><span class="line">plt.plot(x,y)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<img src="/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/image-20230208193136953.png" class="" title="image-20230208193136953">
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> ls <span class="keyword">in</span> [(<span class="number">1</span>, <span class="number">3</span>), (<span class="number">5</span>, <span class="number">1</span>), (<span class="number">2</span>, <span class="number">2</span>), (<span class="number">2</span>, <span class="number">5</span>),(<span class="number">5</span>,<span class="number">2</span>),(<span class="number">10</span>,<span class="number">1</span>)]:</span><br><span class="line">    a,b=ls[<span class="number">0</span>],ls[<span class="number">1</span>]</span><br><span class="line">    x=np.arange(<span class="number">0</span>,<span class="number">1</span>,<span class="number">0.001</span>)</span><br><span class="line">    y=beta(x,a,b)</span><br><span class="line">    plt.plot(x,y)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<img src="/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/image-20230208193159857.png" class="" title="image-20230208193159857">
+
+<h1 id="伽马分布-Gamma-distribution"><a href="#伽马分布-Gamma-distribution" class="headerlink" title="伽马分布 Gamma distribution"></a>伽马分布 Gamma distribution</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">gamma</span>(<span class="params">n</span>):</span><br><span class="line">    res = <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, n):</span><br><span class="line">        res *= i</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">gamma_dis</span>(<span class="params">x,a,b</span>):</span><br><span class="line">    res=<span class="number">1</span>/gamma(a)</span><br><span class="line">    y=res*b**a*x**(a-<span class="number">1</span>)*np.exp((-b*x))</span><br><span class="line">    <span class="keyword">return</span> y</span><br><span class="line"><span class="keyword">for</span> ls <span class="keyword">in</span> [(<span class="number">1</span>,<span class="number">1</span>),(<span class="number">2</span>,<span class="number">1</span>),(<span class="number">3</span>,<span class="number">1</span>),(<span class="number">2</span>,<span class="number">2</span>),(<span class="number">4</span>,<span class="number">1</span>)]:</span><br><span class="line">    a,b=ls[<span class="number">0</span>],ls[<span class="number">1</span>]</span><br><span class="line">    x=np.arange(<span class="number">0</span>,<span class="number">20</span>,<span class="number">0.001</span>)</span><br><span class="line">    y=gamma_dis(x,a,b)</span><br><span class="line">    plt.plot(x,y)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<img src="/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/image-20230208193230281.png" class="" title="image-20230208193230281">
+
+<h1 id="指数分布Exponential-distribution"><a href="#指数分布Exponential-distribution" class="headerlink" title="指数分布Exponential distribution"></a>指数分布Exponential distribution</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">exponential</span>(<span class="params">x,lam</span>):</span><br><span class="line">    y=[]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> x:</span><br><span class="line">        <span class="keyword">if</span> i&gt;=<span class="number">0</span>:</span><br><span class="line">            y.append(lam*np.exp(-lam*i))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            y.append(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> y</span><br><span class="line"><span class="keyword">for</span> lam <span class="keyword">in</span> [<span class="number">0.5</span>,<span class="number">1</span>,<span class="number">1.5</span>]:</span><br><span class="line">    x=np.arange(<span class="number">0</span>,<span class="number">20</span>,<span class="number">0.01</span>,dtype=np.float64)</span><br><span class="line">    y=exponential(x,lam)</span><br><span class="line">    plt.plot(x,y)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<img src="/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/image-20230208193310624.png" class="" title="image-20230208193310624">
+
+<h1 id="高斯分布-Gaussian-distribution"><a href="#高斯分布-Gaussian-distribution" class="headerlink" title="高斯分布 Gaussian distribution"></a>高斯分布 Gaussian distribution</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">gaussian</span>(<span class="params">x</span>):</span><br><span class="line">    u=x.mean()</span><br><span class="line">    sig=x.std()</span><br><span class="line">    res1=<span class="number">1</span>/(sig*np.math.sqrt(<span class="number">2</span>*np.pi))</span><br><span class="line">    res2=-((x-u)**<span class="number">2</span>/(<span class="number">2</span>*sig**<span class="number">2</span>))</span><br><span class="line">    <span class="keyword">return</span> res1*np.exp(res2)</span><br><span class="line">x=np.arange(-<span class="number">100</span>,<span class="number">100</span>,<span class="number">0.001</span>)</span><br><span class="line">y=gaussian(x)</span><br><span class="line">plt.plot(x,y)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<img src="/2023/02/08/%E5%B8%B8%E8%A7%81%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/image-20230208193345113.png" class="" title="image-20230208193345113">
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/08/hexo-typora%E7%9A%84%E5%9B%BE%E7%89%87%E8%B7%AF%E5%BE%84%E4%B8%8E%E6%94%AF%E6%8C%81Latex%E8%AF%AD%E5%8F%A5%E9%97%AE%E9%A2%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -589,12 +698,12 @@ mjx-container[display="true"] + br {
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">3</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
