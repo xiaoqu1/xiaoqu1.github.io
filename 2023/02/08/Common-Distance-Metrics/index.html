@@ -23,14 +23,14 @@
 <meta property="og:site_name" content="Xiaoqu">
 <meta property="og:description" content="文章实现了部分常见距离度量方法的代码（在chatgpt帮助下） 有不足之处请批评指正 vscode+python+.ipynb+chatgpt 123import numpy as npimport matplotlib.pyplot as pltfrom mpl_toolkits.mplot3d import Axes3D 欧氏距离(Euclidean Distance, ED)N维空间点：$d">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/.com//02/08/Common-Distance-Metrics/image-20230208140342567.png">
-<meta property="og:image" content="http://example.com/.com//02/08/Common-Distance-Metrics/image-20230208140439598.png">
+<meta property="og:image" content="http://example.com/2023/02/08/Common-Distance-Metrics/image-20230208140342567.png">
+<meta property="og:image" content="http://example.com/2023/02/08/Common-Distance-Metrics/image-20230208140439598.png">
 <meta property="article:published_time" content="2023-02-08T06:20:56.000Z">
 <meta property="article:modified_time" content="2023-02-08T06:25:57.043Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Python 距离度量方法">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/.com//02/08/Common-Distance-Metrics/image-20230208140342567.png">
+<meta name="twitter:image" content="http://example.com/2023/02/08/Common-Distance-Metrics/image-20230208140342567.png">
   
   
   
@@ -317,7 +317,7 @@
 <p>The distance between the two points is 5.0</p>
 </blockquote>
 <p>图片显示为</p>
-<img src="/.com//02/08/Common-Distance-Metrics/image-20230208140342567.png" srcset="/img/loading.gif" lazyload class title="image-20230208140342567">
+<img src="/2023/02/08/Common-Distance-Metrics/image-20230208140342567.png" srcset="/img/loading.gif" lazyload class="" title="image-20230208140342567">
 
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">euclidean_distance_3d</span>(<span class="hljs-params">a,b</span>):<br>    <span class="hljs-keyword">return</span> np.math.sqrt((a[<span class="hljs-number">0</span>]-b[<span class="hljs-number">0</span>])**<span class="hljs-number">2</span>+(a[<span class="hljs-number">1</span>]-b[<span class="hljs-number">1</span>])**<span class="hljs-number">2</span>+(a[<span class="hljs-number">2</span>]-b[<span class="hljs-number">2</span>])**<span class="hljs-number">2</span>)<br></code></pre></td></tr></table></figure>
 
@@ -331,7 +331,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python">fig = plt.figure()<br>ax = fig.add_subplot(<span class="hljs-number">111</span>, projection=<span class="hljs-string">&#x27;3d&#x27;</span>)<br><br>x = [a[<span class="hljs-number">0</span>], b[<span class="hljs-number">0</span>]]<br>y = [a[<span class="hljs-number">1</span>], b[<span class="hljs-number">1</span>]]<br>z = [a[<span class="hljs-number">2</span>], b[<span class="hljs-number">2</span>]]<br><br>ax.scatter(x, y, z)<br>ax.plot(x, y, z, color=<span class="hljs-string">&#x27;red&#x27;</span>)<br>ax.set_xlabel(<span class="hljs-string">&#x27;X axis&#x27;</span>)<br>ax.set_ylabel(<span class="hljs-string">&#x27;Y axis&#x27;</span>)<br>ax.set_zlabel(<span class="hljs-string">&#x27;Z axis&#x27;</span>)<br><br>plt.show()<br></code></pre></td></tr></table></figure>
 
 <p>图片显示为</p>
-<img src="/.com//02/08/Common-Distance-Metrics/image-20230208140439598.png" srcset="/img/loading.gif" lazyload class title="image-20230208140439598">
+<img src="/2023/02/08/Common-Distance-Metrics/image-20230208140439598.png" srcset="/img/loading.gif" lazyload class="" title="image-20230208140439598">
 
 
 
