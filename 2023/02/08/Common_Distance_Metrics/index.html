@@ -20,30 +20,36 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Xiaoqu的个人博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Xiaoqu">
-<meta property="og:url" content="http://example.com/index.html">
+  <meta name="description" content="文章实现了部分常见距离度量方法的代码（在chatgpt） 有不足之处请批评指正 vscode+python+.ipynb+chatgpt 123import numpy as npimport matplotlib.pyplot as pltfrom mpl_toolkits.mplot3d import Axes3D 欧氏距离(Euclidean Distance, ED)N维空间点： 12de">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【学习】常见距离度量方法">
+<meta property="og:url" content="http://example.com/2023/02/08/Common_Distance_Metrics/index.html">
 <meta property="og:site_name" content="Xiaoqu">
-<meta property="og:description" content="Xiaoqu的个人博客">
+<meta property="og:description" content="文章实现了部分常见距离度量方法的代码（在chatgpt） 有不足之处请批评指正 vscode+python+.ipynb+chatgpt 123import numpy as npimport matplotlib.pyplot as pltfrom mpl_toolkits.mplot3d import Axes3D 欧氏距离(Euclidean Distance, ED)N维空间点： 12de">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/02/08/Common_Distance_Metrics/image-20230208155518118.png">
+<meta property="og:image" content="http://example.com/2023/02/08/Common_Distance_Metrics/image-20230208155538560.png">
+<meta property="article:published_time" content="2023-02-08T07:53:33.000Z">
+<meta property="article:modified_time" content="2023-02-08T09:24:54.705Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Python 距离度量方法">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2023/02/08/Common_Distance_Metrics/image-20230208155518118.png">
 
-<link rel="canonical" href="http://example.com/">
+<link rel="canonical" href="http://example.com/2023/02/08/Common_Distance_Metrics/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>Xiaoqu</title>
+  <title>【学习】常见距离度量方法 | Xiaoqu</title>
   
 
 
@@ -254,9 +260,10 @@ mjx-container[display="true"] + br {
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
@@ -272,10 +279,9 @@ mjx-container[display="true"] + br {
       <meta itemprop="name" content="Xiaoqu">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/02/08/Common_Distance_Metrics/" class="post-title-link" itemprop="url">【学习】常见距离度量方法</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          【学习】常见距离度量方法
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -299,7 +305,7 @@ mjx-container[display="true"] + br {
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>文章实现了部分常见距离度量方法的代码（在chatgpt）</p>
+        <p>文章实现了部分常见距离度量方法的代码（在chatgpt）</p>
 <p>有不足之处请批评指正</p>
 <p>vscode+python+.ipynb+chatgpt</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> mpl_toolkits.mplot3d <span class="keyword">import</span> Axes3D</span><br></pre></td></tr></table></figure>
@@ -406,21 +412,26 @@ mjx-container[display="true"] + br {
 <p>1.0</p>
 </blockquote>
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
+          <div class="post-tags">
+              <a href="/tags/Python-%E8%B7%9D%E7%A6%BB%E5%BA%A6%E9%87%8F%E6%96%B9%E6%B3%95/" rel="tag"># Python 距离度量方法</a>
+          </div>
+
+        
+
+
+        
       </footer>
+    
   </article>
   
   
-  
-
-
   
 
 
@@ -473,6 +484,7 @@ mjx-container[display="true"] + br {
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AC%A7%E6%B0%8F%E8%B7%9D%E7%A6%BB-Euclidean-Distance-ED"><span class="nav-number">1.</span> <span class="nav-text">欧氏距离(Euclidean Distance, ED)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9B%BC%E5%93%88%E9%A1%BF%E8%B7%9D%E7%A6%BB-Manhattan-Distance-ManD"><span class="nav-number">2.</span> <span class="nav-text">曼哈顿距离(Manhattan Distance, ManD)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%87%E6%AF%94%E9%9B%AA%E5%A4%AB%E8%B7%9D%E7%A6%BB-Chebyshev-Distance-CD"><span class="nav-number">3.</span> <span class="nav-text">切比雪夫距离(Chebyshev Distance, CD)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%97%B5%E5%8F%AF%E5%A4%AB%E6%96%AF%E5%9F%BA%E8%B7%9D%E7%A6%BB-Minkowski-Distance-MinD"><span class="nav-number">4.</span> <span class="nav-text">闵可夫斯基距离(Minkowski Distance, MinD)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A0%87%E5%87%86%E5%8C%96%E6%AC%A7%E6%B0%8F%E8%B7%9D%E7%A6%BB-Standardized-Euclidean-Distance-SED"><span class="nav-number">5.</span> <span class="nav-text">标准化欧氏距离(Standardized Euclidean Distance, SED)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A9%AC%E6%B0%8F%E8%B7%9D%E7%A6%BB-Mahalanobis-Distance-MahD"><span class="nav-number">6.</span> <span class="nav-text">马氏距离(Mahalanobis Distance, MahD)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%B9%E8%A7%92%E4%BD%99%E5%BC%A6%E8%B7%9D%E7%A6%BB-Cosine-Distance-CosD"><span class="nav-number">7.</span> <span class="nav-text">夹角余弦距离(Cosine Distance, CosD)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9D%B0%E5%8D%A1%E5%BE%B7%E8%B7%9D%E7%A6%BB-Jaccard-Distance-JD"><span class="nav-number">8.</span> <span class="nav-text">杰卡德距离(Jaccard Distance, JD)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E7%86%B5-Information-Entropy-IE"><span class="nav-number">9.</span> <span class="nav-text">信息熵(Information Entropy,IE)</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
