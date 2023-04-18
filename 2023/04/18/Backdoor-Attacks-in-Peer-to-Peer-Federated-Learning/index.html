@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="作者做了什么工作？文章提出了一种基于对等网络的联邦学习架构，将学习图和通信图分离，通过真实的网络拓扑来模拟P2PFL系统，并研究了其中的后门攻击，并提出了相应的防御措施。 作者为什么做这些工作？ 尽管最近的工作提出了几种P2PFL协议，但尚不存在广泛接受的P2PFL架构。 在点对点联邦学习中，后门攻击对攻击者非常有吸引力，因为聚合是由单个节点而不是企业服务器执行的，并且破坏单个节点比破坏受保护的企">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【学习】Backdoor Attacks in Peer-to-Peer Federated Learning">
+<meta property="og:url" content="http://example.com/2023/04/18/Backdoor-Attacks-in-Peer-to-Peer-Federated-Learning/index.html">
+<meta property="og:site_name" content="Xiaoqu">
+<meta property="og:description" content="作者做了什么工作？文章提出了一种基于对等网络的联邦学习架构，将学习图和通信图分离，通过真实的网络拓扑来模拟P2PFL系统，并研究了其中的后门攻击，并提出了相应的防御措施。 作者为什么做这些工作？ 尽管最近的工作提出了几种P2PFL协议，但尚不存在广泛接受的P2PFL架构。 在点对点联邦学习中，后门攻击对攻击者非常有吸引力，因为聚合是由单个节点而不是企业服务器执行的，并且破坏单个节点比破坏受保护的企">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/04/18/Backdoor-Attacks-in-Peer-to-Peer-Federated-Learning/image-20230418090730410.png">
+<meta property="og:image" content="http://example.com/2023/04/18/Backdoor-Attacks-in-Peer-to-Peer-Federated-Learning/image-20230418091134636.png">
+<meta property="og:image" content="http://example.com/2023/04/18/Backdoor-Attacks-in-Peer-to-Peer-Federated-Learning/image-20230418091313922.png">
+<meta property="og:image" content="http://example.com/2023/04/18/Backdoor-Attacks-in-Peer-to-Peer-Federated-Learning/image-20230418091651090.png">
+<meta property="og:image" content="http://example.com/2023/04/18/Backdoor-Attacks-in-Peer-to-Peer-Federated-Learning/image-20230418091844042.png">
+<meta property="article:published_time" content="2023-04-18T01:01:17.000Z">
+<meta property="article:modified_time" content="2023-04-18T02:05:50.892Z">
+<meta property="article:tag" content="对等联邦学习 后门攻击">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2023/04/18/Backdoor-Attacks-in-Peer-to-Peer-Federated-Learning/image-20230418090730410.png">
+
+<link rel="canonical" href="http://example.com/2023/04/18/Backdoor-Attacks-in-Peer-to-Peer-Federated-Learning/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【学习】Backdoor Attacks in Peer-to-Peer Federated Learning | Xiaoqu</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Xiaoqu</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Xiaoqu</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/18/Backdoor-Attacks-in-Peer-to-Peer-Federated-Learning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="Xiaoqu的个人博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xiaoqu">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【学习】Backdoor Attacks in Peer-to-Peer Federated Learning
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-04-18 09:01:17 / 修改时间：10:05:50" itemprop="dateCreated datePublished" datetime="2023-04-18T09:01:17+08:00">2023-04-18</time>
+            </span>
+
+          
+            <span id="/2023/04/18/Backdoor-Attacks-in-Peer-to-Peer-Federated-Learning/" class="post-meta-item leancloud_visitors" data-flag-title="【学习】Backdoor Attacks in Peer-to-Peer Federated Learning" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="作者做了什么工作？"><a href="#作者做了什么工作？" class="headerlink" title="作者做了什么工作？"></a>作者做了什么工作？</h1><p>文章提出了一种基于对等网络的联邦学习架构，将学习图和通信图分离，通过真实的网络拓扑来模拟P2PFL系统，并研究了其中的后门攻击，并提出了相应的防御措施。</p>
+<h1 id="作者为什么做这些工作？"><a href="#作者为什么做这些工作？" class="headerlink" title="作者为什么做这些工作？"></a>作者为什么做这些工作？</h1><ol>
+<li>尽管最近的工作提出了几种P2PFL协议，但尚不存在广泛接受的P2PFL架构。</li>
+<li>在点对点联邦学习中，后门攻击对攻击者非常有吸引力，因为聚合是由单个节点而不是企业服务器执行的，并且破坏单个节点比破坏受保护的企业服务器容易得多。</li>
+<li>以前关于点对点联邦学习的研究，要么只考虑网络拓扑是完全图，要么忽略了它。完整的网络拓扑具有固有的可扩展性问题和极高的网络带宽成本。在实际的点对点联邦学习部署中，这样的连接假设几乎不可能满足。因此，有必要考虑在实际网络拓扑情况下研究点对点联邦学习中的攻击。</li>
+<li>介绍FL 中针对污染攻击的标准防御方法，并展示实证证据表明这些防御方法是无效的、会减缓学习速度，并导致最终模型的准确率降低</li>
+</ol>
+<h1 id="P2P联邦框架是什么样子的？"><a href="#P2P联邦框架是什么样子的？" class="headerlink" title="P2P联邦框架是什么样子的？"></a>P2P联邦框架是什么样子的？</h1><img src="/2023/04/18/Backdoor-Attacks-in-Peer-to-Peer-Federated-Learning/image-20230418090730410.png" class="" title="image-20230418090730410">
+
+<p>P2PFL对等方有三个角色:</p>
+<ol>
+<li>转发网络数据包(通信层)</li>
+<li>使用通信层抽象向数据对等方发送和接收机器学习更新(学习层)</li>
+<li>在本地数据集上运行机器学习算法,聚合学习层接收的更新，创建本地模型的新版本,并与学习层共享以进行下一轮(ML模块)</li>
+</ol>
+<hr>
+<p>从这里可以看到通信层&#x2F;图和学习层&#x2F;图是分离的。</p>
+<hr>
+<p>作者通过GossipSub协议将通信图和学习图分离，达到使P2PFL的设计者设计和评估更具对抗鲁棒性的学习拓扑结构的目的。</p>
+<img src="/2023/04/18/Backdoor-Attacks-in-Peer-to-Peer-Federated-Learning/image-20230418091134636.png" class="" title="image-20230418091134636">
+
+<p>如图所示，通信拓扑由灰色平面表示，学习拓扑使用底层通信拓扑进行更新交换。</p>
+<p>算法如下图所示</p>
+<img src="/2023/04/18/Backdoor-Attacks-in-Peer-to-Peer-Federated-Learning/image-20230418091313922.png" class="" title="image-20230418091313922">
+
+<p>算法1是一个元算法，可以根据需要提出自己的实现方法来计算本地更新和聚合步骤。</p>
+<p>“可以根据需要提出自己的实现方法来计算本地更新和聚合步骤”感觉这一句话就是算法被称为个性化的原因。</p>
+<h2 id="GossipSub协议有什么作用？"><a href="#GossipSub协议有什么作用？" class="headerlink" title="GossipSub协议有什么作用？"></a>GossipSub协议有什么作用？</h2><p>GossipSub构建了一个网状结构，其中节点可以发布其更新或订阅其他节点的更新。当节点A想要与节点B通信时，消息不能通过TCP连接直接从A传递到B，而是A将其更新发布到B订阅的通道中。称这些节点为通信节点。这种设计选择提供了更好的网络带宽利用和网络故障的鲁棒性。</p>
+<h2 id="如何理解GossipSub协议将学习图和通信图分离？"><a href="#如何理解GossipSub协议将学习图和通信图分离？" class="headerlink" title="如何理解GossipSub协议将学习图和通信图分离？"></a>如何理解GossipSub协议将学习图和通信图分离？</h2><p>来自Claude的解释</p>
+<ol>
+<li>GossipSub协议可以在节点之间构建一个通信网状结构,节点可以在这个网络上发布自己的信息更新并订阅其他节点的更新。这就构建了一个通信拓扑。</li>
+<li>而学习拓扑是在P2PFL应用层面定义的,是描述节点之间模型更新信息交换的拓扑关系。</li>
+<li>由于P2PFL应用运行在GossipSub协议构建的这个通信网络之上,所以通信拓扑和学习拓扑是有区分的。通信拓扑由GossipSub协议定义,描述网络层面的节点通信连接。学习拓扑在应用层由P2PFL定义,描述应用层面上节点之间的模型更新信息交换拓扑。</li>
+<li>如果不基于GossipSub这样一个提供了通信网状结构的底层协议,那么学习拓扑和通信拓扑就可能混在一起,难以区分和单独定义。</li>
+</ol>
+<h1 id="后门攻击算法是什么样的？"><a href="#后门攻击算法是什么样的？" class="headerlink" title="后门攻击算法是什么样的？"></a>后门攻击算法是什么样的？</h1><img src="/2023/04/18/Backdoor-Attacks-in-Peer-to-Peer-Federated-Learning/image-20230418091651090.png" class="" title="image-20230418091651090">
+
+<p>我们假设攻击者完全可以访问每个被攻击节点的私有训练数据、模型权重和其他训练参数，并使用算法3对每个被攻击节点进行后门攻击。</p>
+<p>攻击者使用Gu等人提出的BadNets攻击方法（添加像素点和像素模式），在被攻击的节点上执行后门攻击，该攻击方法还通过模型污染攻击来增强其攻击效果。攻击者选择一个“毒化数据比率”(PDR)，即恶意节点中毒化数据样本占总数据样本的比率，以及“加强因子”(Boosting Factor)来增加本地模型的贡献。</p>
+<img src="/2023/04/18/Backdoor-Attacks-in-Peer-to-Peer-Federated-Learning/image-20230418091844042.png" class="" title="image-20230418091844042">
+
+<p>算法3中选择PDR后，攻击者将带有固定PDR比率的后门样本注入到训练数据集D中，然后开始学习协议，生成带有后门的训练数据$D^*$。后门样本将具有与干净样本不同的目标类别标签，攻击者可以选择目标类别标签。在训练期间，模型首先在带有后门的数据$D^*$上进行更新，而不是在D上，然后通过使用Boost Factor进行模型毒化来放大攻击的影响，并最终生成恶意模型更新$A^{t^*}$。</p>
+<h1 id="攻击者如何选择节点？"><a href="#攻击者如何选择节点？" class="headerlink" title="攻击者如何选择节点？"></a>攻击者如何选择节点？</h1><p>P2PFL协议在非完全图拓扑上运行，因此不是所有对等方在被攻击时都有同等的影响。攻击者必须回答的一个自然问题是，在所有可用于攻击的n个对等方中，如何选择k个对等方进行攻击。</p>
+<p>攻击者的一种简单策略是随机选择攻击节点。然而，考虑到系统的P2P性质，一种自然的方法是选择在图中连接良好且具有高度中心度测量的节点。我们考虑了基于四种众所周知的中心度度量的四种攻击者策略：最大度数，Effective Network Size，PageRank分数和最大聚类系数分数。</p>
+<h1 id="作者假设攻击者有什么样的能力？"><a href="#作者假设攻击者有什么样的能力？" class="headerlink" title="作者假设攻击者有什么样的能力？"></a>作者假设攻击者有什么样的能力？</h1><p>我们假设攻击者对被攻击的节点具有完全控制权。更具体地说，攻击者可以添加、修改或删除训练数据样本，修改和偏离机器学习算法，只要最终的模型更新具有与良性用户发送的模型更新相同的向量维度。此外，在我们的攻击向量中，攻击者还具有网络级别的能力。攻击者了解网络中节点之间的完整连接情况，可以利用这些知识选择并攻击通信图中最关键的节点。由于P2PFL是一个开放的系统，我们假设攻击者可以获得完整的节点连接信息快照。即使这种攻击向量可能被认为是强大的，但研究它仍然很重要，以便与攻击者随机攻击系统中的节点进行比较。强大的攻击者也是评估和比较潜在缓解策略的相关因素。</p>
+<h1 id="作者为什么提出新的防御措施？"><a href="#作者为什么提出新的防御措施？" class="headerlink" title="作者为什么提出新的防御措施？"></a>作者为什么提出新的防御措施？</h1><ol>
+<li>在P2PFL和FL中，剪切差异显着，因为在FL中，服务器不通过生成其更新来参与学习协议，而是从客户端接收更新并对其进行聚合。另一方面，在P2PFL中，每个节点通过生成本地更新并将其与来自邻居的接收更新聚合来参与学习协议。节点可以信任自己，因此没有必要剪切自己的更新。但是，当所有其他更新被剪切而自己的更新没有被剪切时，节点开始主要基于自己的更新计算下一轮模型，这降低了使用P2PFL而不是本地训练的好处。</li>
+<li>尝试了Trimmed Mean方法。在Trimmed Mean中，对于向量的每个维度，对所有对等方的更新进行排序，排除最大和最小p个值，然后对其余的值进行平均。在我们的实验中，我们使用了p&#x3D;1，并观察到Trimmed Mean（&#x3D;&#x3D;这个地方存在疑问&#x3D;&#x3D;）对于P2PFL中的后门攻击不起作用。</li>
+</ol>
+<h1 id="作者提出了怎么样的防御措施？"><a href="#作者提出了怎么样的防御措施？" class="headerlink" title="作者提出了怎么样的防御措施？"></a>作者提出了怎么样的防御措施？</h1><p>为了实现对抗鲁棒性，自然而然地需要限制每个邻居节点在节点学习的个性化模型中的贡献。剪切防御可以减少每个客户端的贡献，但如果它被部署类似于集中式设置，就会产生一些几个问题。如果对于恶意节点来说剪切范数过大，则该防御不起作用。如果对于本地模型来说剪切范数太小，则收敛会受到极大影响。由于单个剪切范数的这两个限制，我们建议使用两个剪切范数值，一个用于限制邻居节点的更新，一个用于限制本地模型。</p>
+<h1 id="什么是Erdos-Renyi？"><a href="#什么是Erdos-Renyi？" class="headerlink" title="什么是Erdos Renyi？"></a>什么是Erdos Renyi？</h1><p>ER随机图（Erdős–Rényi random graph）</p>
+<p>在Erdős-Rényi模型中，在顶点集数目相同时，具有固定边数的所有图均具有同等的概率出现。</p>
+<h1 id="什么是Watts-Strogatz？"><a href="#什么是Watts-Strogatz？" class="headerlink" title="什么是Watts Strogatz？"></a>什么是Watts Strogatz？</h1><p>但ER图并不具有我们观察到的许多实际网络所拥有的两个重要属性：</p>
+<ol>
+<li>不能生成局部集聚 local clustering 和<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Triadic_closure">三元闭合</a> triadic closures(网络有三元闭合、三元闭包等释义）。相反，因为图中两个节点有恒定、随机且独立的概率彼此相连，<a target="_blank" rel="noopener" href="https://wiki.swarma.org/index.php/ER%E9%9A%8F%E6%9C%BA%E5%9B%BE%E6%A8%A1%E5%9E%8B">ER随机图模型</a>的集聚系数较低。</li>
+<li>不能解释中心节点 hub 的构成。在形式上，<a target="_blank" rel="noopener" href="https://wiki.swarma.org/index.php/ER%E9%9A%8F%E6%9C%BA%E5%9B%BE%E6%A8%A1%E5%9E%8B">ER随机图模型</a>的<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Degree_(graph_theory)">度</a>分布收敛于<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Poisson_distribution">泊松分布 Poisson distribution </a>，而不是我们在现实世界中观测到的、<a target="_blank" rel="noopener" href="https://wiki.swarma.org/index.php?title=%E6%97%A0%E6%A0%87%E5%BA%A6%E7%BD%91%E7%BB%9C_scale-free_networks&action=edit&redlink=1">无标度网络 scale-free networks</a> 的幂律分布 power law</li>
+</ol>
+<p>WS小世界模型是针对于第一条局限性来设计的最简可能模型。它在解释了集聚的同时保持了ER模型较短的平均节点间距离，这是通过在近似ER图的随机化结构和<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Lattice_(group)">正则环点阵 regular ring lattice</a>中进行内插得到的。因而，该模型至少能够部分解释许多网络中的“小世界”现象 “small-world” phenomena，比如电网、秀丽隐杆线虫 C. elegans的神经网络、电影演员的社交网络、以及芽殖酵母脂肪代谢的信息交流 [<a target="_blank" rel="noopener" href="https://wiki.swarma.org/index.php/WS%E5%B0%8F%E4%B8%96%E7%95%8C%E6%A8%A1%E5%9E%8B_Watts%E2%80%93Strogatz_model#cite_note-4">4]</a> 。</p>
+<h1 id="什么是Barabasi-Albert？"><a href="#什么是Barabasi-Albert？" class="headerlink" title="什么是Barabasi Albert？"></a>什么是Barabasi Albert？</h1><p>Barabási–Albert  （BA）模型是用于产生随机的算法无标度网络使用优先连接机构。包括互联网，万维网，引文网络和一些社交网络在内的几种自然和人为系统被认为是近似无标度的，并且与其他系统相比，包含很少节点（称为集线器）具有异常高的高度网络的节点。BA模型试图解释此类节点在实际网络中的存在。</p>
+<p>许多观测到的网络（至少近似地）属于无标度网络，这意味着它们具有幂律（或无标度）度分布，而随机图模型（如Erdős-Rényi（ER）模型和Watts–Strogatz (WS) 模型不具有功率定律。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AF%B9%E7%AD%89%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0-%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB/" rel="tag"># 对等联邦学习 后门攻击</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/04/03/Verifiable-Symmetric-Searchable-Encryption-For-Semi-honest-but-curious-Cloud-Servers/" rel="prev" title="Verifiable Symmetric Searchable Encryption For Semi-honest-but-curious Cloud Servers">
+      <i class="fa fa-chevron-left"></i> Verifiable Symmetric Searchable Encryption For Semi-honest-but-curious Cloud Servers
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%9C%E8%80%85%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88%E5%B7%A5%E4%BD%9C%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">作者做了什么工作？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%9C%E8%80%85%E4%B8%BA%E4%BB%80%E4%B9%88%E5%81%9A%E8%BF%99%E4%BA%9B%E5%B7%A5%E4%BD%9C%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">作者为什么做这些工作？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#P2P%E8%81%94%E9%82%A6%E6%A1%86%E6%9E%B6%E6%98%AF%E4%BB%80%E4%B9%88%E6%A0%B7%E5%AD%90%E7%9A%84%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">P2P联邦框架是什么样子的？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#GossipSub%E5%8D%8F%E8%AE%AE%E6%9C%89%E4%BB%80%E4%B9%88%E4%BD%9C%E7%94%A8%EF%BC%9F"><span class="nav-number">3.1.</span> <span class="nav-text">GossipSub协议有什么作用？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3GossipSub%E5%8D%8F%E8%AE%AE%E5%B0%86%E5%AD%A6%E4%B9%A0%E5%9B%BE%E5%92%8C%E9%80%9A%E4%BF%A1%E5%9B%BE%E5%88%86%E7%A6%BB%EF%BC%9F"><span class="nav-number">3.2.</span> <span class="nav-text">如何理解GossipSub协议将学习图和通信图分离？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%8E%E9%97%A8%E6%94%BB%E5%87%BB%E7%AE%97%E6%B3%95%E6%98%AF%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%EF%BC%9F"><span class="nav-number">4.</span> <span class="nav-text">后门攻击算法是什么样的？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%94%BB%E5%87%BB%E8%80%85%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9%E8%8A%82%E7%82%B9%EF%BC%9F"><span class="nav-number">5.</span> <span class="nav-text">攻击者如何选择节点？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%9C%E8%80%85%E5%81%87%E8%AE%BE%E6%94%BB%E5%87%BB%E8%80%85%E6%9C%89%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%E8%83%BD%E5%8A%9B%EF%BC%9F"><span class="nav-number">6.</span> <span class="nav-text">作者假设攻击者有什么样的能力？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%9C%E8%80%85%E4%B8%BA%E4%BB%80%E4%B9%88%E6%8F%90%E5%87%BA%E6%96%B0%E7%9A%84%E9%98%B2%E5%BE%A1%E6%8E%AA%E6%96%BD%EF%BC%9F"><span class="nav-number">7.</span> <span class="nav-text">作者为什么提出新的防御措施？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%9C%E8%80%85%E6%8F%90%E5%87%BA%E4%BA%86%E6%80%8E%E4%B9%88%E6%A0%B7%E7%9A%84%E9%98%B2%E5%BE%A1%E6%8E%AA%E6%96%BD%EF%BC%9F"><span class="nav-number">8.</span> <span class="nav-text">作者提出了怎么样的防御措施？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFErdos-Renyi%EF%BC%9F"><span class="nav-number">9.</span> <span class="nav-text">什么是Erdos Renyi？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFWatts-Strogatz%EF%BC%9F"><span class="nav-number">10.</span> <span class="nav-text">什么是Watts Strogatz？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFBarabasi-Albert%EF%BC%9F"><span class="nav-number">11.</span> <span class="nav-text">什么是Barabasi Albert？</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name"></p>
+  <div class="site-description" itemprop="description">Xiaoqu的个人博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"ejeJCGRcmAAJTOfRlLaYbG5M-gzGzoHsz","app_key":"gP6jEK3eqltMAndqiDlNCY34","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
